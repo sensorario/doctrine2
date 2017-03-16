@@ -1649,7 +1649,7 @@ class Parser
             $joinQueryComponent = array(
                 'metadata'     => $targetClass,
                 'parent'       => $identificationVariable,
-                'relation'     => $class->getAssociationMapping($field),
+                'relation'     => $association,
                 'map'          => null,
                 'nestingLevel' => $this->nestingLevel,
                 'token'        => $this->lexer->lookahead

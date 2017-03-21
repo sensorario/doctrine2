@@ -62,7 +62,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $cm->addAssociation($association);
 
-        self::assertEquals(1, count($cm->associationMappings));
+        self::assertCount(1, $cm->getProperties());
 
         $serialized = serialize($cm);
         $cm = unserialize($serialized);
@@ -88,10 +88,10 @@ class ClassMetadataTest extends OrmTestCase
         self::assertEquals($discrColumn, $cm->discriminatorColumn);
         self::assertTrue($cm->isReadOnly());
         self::assertEquals(['dql' => ['name'=>'dql','query'=>'foo','dql'=>'foo']], $cm->namedQueries);
-        self::assertEquals(1, count($cm->associationMappings));
-        self::assertInstanceOf(Mapping\OneToOneAssociationMetadata::class, $cm->associationMappings['phonenumbers']);
+        self::assertCount(1, $cm->getProperties());
+        self::assertInstanceOf(Mapping\OneToOneAssociationMetadata::class, $cm->getProperty('phonenumbers'));
 
-        $oneOneMapping = $cm->associationMappings['phonenumbers'];
+        $oneOneMapping = $cm->getProperty('phonenumbers');
 
         self::assertEquals(Mapping\FetchMode::LAZY, $oneOneMapping->getFetchMode());
         self::assertEquals(CMS\CmsAddress::class, $oneOneMapping->getTargetEntity());
@@ -174,7 +174,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $cm->addAssociation($association);
 
-        self::assertEquals("DoctrineGlobal_User", $cm->associationMappings['author']->getTargetEntity());
+        self::assertEquals("DoctrineGlobal_User", $cm->getProperty('author')->getTargetEntity());
     }
 
     public function testMapManyToManyJoinTableDefaults()
@@ -188,7 +188,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $cm->addAssociation($association);
 
-        $association = $cm->associationMappings['groups'];
+        $association = $cm->getProperty('groups');
 
         $joinColumns = [];
 
@@ -228,7 +228,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $cm->addAssociation($association);
 
-        $association = $cm->associationMappings['groups'];
+        $association = $cm->getProperty('groups');
         $association = unserialize(serialize($association));
 
         $joinTable = $association->getJoinTable();
@@ -478,7 +478,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $cm->addAssociation($association);
 
-        $association = $cm->associationMappings['user'];
+        $association = $cm->getProperty('user');
 
         self::assertEquals('cmsaddress_cmsuser', $association->getJoinTable()->getName());
     }
@@ -505,7 +505,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $cm->addAssociation($association);
 
-        $association = $cm->associationMappings['user'];
+        $association = $cm->getProperty('user');
         $joinColumns = $association->getJoinColumns();
         $joinColumn  = reset($joinColumns);
 
@@ -535,7 +535,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $cm->addAssociation($association);
 
-        $association        = $cm->associationMappings['user'];
+        $association        = $cm->getProperty('user');
         $joinTable          = $association->getJoinTable();
         $joinColumns        = $joinTable->getJoinColumns();
         $joinColumn         = reset($joinColumns);
@@ -560,7 +560,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $metadata->addAssociation($association);
 
-        $association = $metadata->associationMappings['user'];
+        $association = $metadata->getProperty('user');
         $joinColumns = $association->getJoinColumns();
         $joinColumn  = reset($joinColumns);
 
@@ -582,7 +582,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $metadata->addAssociation($association);
 
-        $association        = $metadata->associationMappings['user'];
+        $association        = $metadata->getProperty('user');
         $joinTable          = $association->getJoinTable();
         $joinColumns        = $joinTable->getJoinColumns();
         $joinColumn         = reset($joinColumns);
@@ -605,7 +605,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $cm->addAssociation($association);
 
-        $association = $cm->associationMappings['author'];
+        $association = $cm->getProperty('author');
 
         self::assertEquals('DOCTRINE_GLOBAL_ARTICLE_CMS_USER', $association->getJoinTable()->getName());
     }
@@ -646,7 +646,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $metadata->addAssociation($association);
 
-        $association = $metadata->associationMappings['author'];
+        $association = $metadata->getProperty('author');
 
         self::assertEquals('doctrineglobal_article_cmsuser', $association->getJoinTable()->getName());
     }
@@ -1222,8 +1222,8 @@ class ClassMetadataTest extends OrmTestCase
         $articleMetadata->addAssociation($association);
 
         self::assertEquals('routing_routingleg', $routingMetadata->table->getName());
-        self::assertEquals('cms_cmsaddress_cms_cmsuser', $addressMetadata->associationMappings['user']->getJoinTable()->getName());
-        self::assertEquals('doctrineglobal_article_cms_cmsuser', $articleMetadata->associationMappings['author']->getJoinTable()->getName());
+        self::assertEquals('cms_cmsaddress_cms_cmsuser', $addressMetadata->getProperty('user')->getJoinTable()->getName());
+        self::assertEquals('doctrineglobal_article_cms_cmsuser', $articleMetadata->getProperty('author')->getJoinTable()->getName());
     }
 
     /**
@@ -1355,7 +1355,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $cm->addAssociation($association);
 
-        $association = $cm->associationMappings['friendsWithMe'];
+        $association = $cm->getProperty('friendsWithMe');
 
         $joinColumns = [];
 

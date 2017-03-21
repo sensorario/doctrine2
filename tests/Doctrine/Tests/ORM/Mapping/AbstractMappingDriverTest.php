@@ -210,20 +210,21 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
      * @depends testEntityTableNameAndInheritance
      * @param ClassMetadata $class
      */
-    public function testFieldMappings($class)
+    public function testProperties($class)
     {
-        self::assertEquals(4, count($class->getProperties()));
+        self::assertCount(7, $class->getProperties());
 
         self::assertNotNull($class->getProperty('id'));
         self::assertNotNull($class->getProperty('name'));
         self::assertNotNull($class->getProperty('email'));
+        self::assertNotNull($class->getProperty('version'));
         self::assertNotNull($class->getProperty('version'));
 
         return $class;
     }
 
     /**
-     * @depends testFieldMappings
+     * @depends testProperties
      * @param ClassMetadata $class
      */
     public function testVersionProperty($class)
@@ -308,7 +309,7 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
     }
 
     /**
-     * @depends testFieldMappings
+     * @depends testProperties
      * @param ClassMetadata $class
      */
     public function testIdentifier($class)
@@ -347,25 +348,14 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
     }
 
     /**
-     * @depends testIdentifier
-     * @param ClassMetadata $class
-     */
-    public function testAssociations($class)
-    {
-        self::assertEquals(3, count($class->associationMappings));
-
-        return $class;
-    }
-
-    /**
-     * @depends testAssociations
+     * @depends testProperties
      * @param ClassMetadata $class
      */
     public function testOwningOneToOneAssociation($class)
     {
-        self::assertArrayHasKey('address', $class->associationMappings);
+        self::assertArrayHasKey('address', $class->getProperties());
 
-        $association = $class->associationMappings['address'];
+        $association = $class->getProperty('address');
 
         self::assertTrue($association->isOwningSide());
         self::assertEquals('user', $association->getInversedBy());
@@ -381,9 +371,9 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
      */
     public function testInverseOneToManyAssociation($class)
     {
-        self::assertArrayHasKey('phonenumbers', $class->associationMappings);
+        self::assertArrayHasKey('phonenumbers', $class->getProperties());
 
-        $association = $class->associationMappings['phonenumbers'];
+        $association = $class->getProperty('phonenumbers');
 
         self::assertFalse($association->isOwningSide());
         self::assertTrue($association->isOrphanRemoval());
@@ -403,9 +393,9 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
      */
     public function testManyToManyAssociationWithCascadeAll($class)
     {
-        self::assertArrayHasKey('groups', $class->associationMappings);
+        self::assertArrayHasKey('groups', $class->getProperties());
 
-        $association = $class->associationMappings['groups'];
+        $association = $class->getProperty('groups');
 
         self::assertTrue($association->isOwningSide());
 
@@ -450,7 +440,7 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
     public function testJoinColumnUniqueAndNullable($class)
     {
         // Non-Nullability of Join Column
-        $association = $class->associationMappings['groups'];
+        $association = $class->getProperty('groups');
         $joinTable   = $association->getJoinTable();
         $joinColumns = $joinTable->getJoinColumns();
         $joinColumn  = reset($joinColumns);
@@ -470,7 +460,7 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
         self::assertNotNull($class->getProperty('email'));
 
         $property           = $class->getProperty('email');
-        $association        = $class->associationMappings['groups'];
+        $association        = $class->getProperty('groups');
         $joinTable          = $association->getJoinTable();
         $inverseJoinColumns = $joinTable->getInverseJoinColumns();
         $inverseJoinColumn  = reset($inverseJoinColumns);
@@ -487,7 +477,7 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
      */
     public function testJoinColumnOnDelete($class)
     {
-        $association = $class->associationMappings['address'];
+        $association = $class->getProperty('address');
         $joinColumns = $association->getJoinColumns();
         $joinColumn  = reset($joinColumns);
 
@@ -788,11 +778,11 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
         $guestMetadata  = $factory->getMetadataFor(DDC964Guest::class);
 
         // assert groups association mappings
-        self::assertArrayHasKey('groups', $guestMetadata->associationMappings);
-        self::assertArrayHasKey('groups', $adminMetadata->associationMappings);
+        self::assertArrayHasKey('groups', $guestMetadata->getProperties());
+        self::assertArrayHasKey('groups', $adminMetadata->getProperties());
 
-        $guestGroups = $guestMetadata->associationMappings['groups'];
-        $adminGroups = $adminMetadata->associationMappings['groups'];
+        $guestGroups = $guestMetadata->getProperty('groups');
+        $adminGroups = $adminMetadata->getProperty('groups');
 
         // assert not override attributes
         self::assertEquals($guestGroups->getName(), $adminGroups->getName());
@@ -825,11 +815,11 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
         self::assertEquals('admingroup_id', $adminGroupsInverseJoinColumn->getColumnName());
 
         // assert address association mappings
-        self::assertArrayHasKey('address', $guestMetadata->associationMappings);
-        self::assertArrayHasKey('address', $adminMetadata->associationMappings);
+        self::assertArrayHasKey('address', $guestMetadata->getProperties());
+        self::assertArrayHasKey('address', $adminMetadata->getProperties());
 
-        $guestAddress = $guestMetadata->associationMappings['address'];
-        $adminAddress = $adminMetadata->associationMappings['address'];
+        $guestAddress = $guestMetadata->getProperty('address');
+        $adminAddress = $adminMetadata->getProperty('address');
 
         // assert not override attributes
         self::assertEquals($guestAddress->getName(), $adminAddress->getName());
@@ -861,9 +851,9 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
         $adminMetadata  = $factory->getMetadataFor(DDC3579Admin::class);
 
         // assert groups association mappings
-        self::assertArrayHasKey('groups', $adminMetadata->associationMappings);
+        self::assertArrayHasKey('groups', $adminMetadata->getProperties());
 
-        $adminGroups = $adminMetadata->associationMappings['groups'];
+        $adminGroups = $adminMetadata->getProperty('groups');
 
         // assert override
         self::assertEquals('admins', $adminGroups->getInversedBy());
@@ -1061,17 +1051,17 @@ abstract class AbstractMappingDriverTest extends OrmTestCase
         self::assertEquals(Mapping\CacheUsage::READ_ONLY, $class->cache->getUsage());
         self::assertEquals('doctrine_tests_models_cache_city', $class->cache->getRegion());
 
-        self::assertArrayHasKey('state', $class->associationMappings);
+        self::assertArrayHasKey('state', $class->getProperties());
 
-        $stateAssociation = $class->associationMappings['state'];
+        $stateAssociation = $class->getProperty('state');
 
         self::assertNotNull($stateAssociation->getCache());
         self::assertEquals(Mapping\CacheUsage::READ_ONLY, $stateAssociation->getCache()->getUsage());
         self::assertEquals('doctrine_tests_models_cache_city__state', $stateAssociation->getCache()->getRegion());
 
-        self::assertArrayHasKey('attractions', $class->associationMappings);
+        self::assertArrayHasKey('attractions', $class->getProperties());
 
-        $attractionsAssociation = $class->associationMappings['attractions'];
+        $attractionsAssociation = $class->getProperty('attractions');
 
         self::assertNotNull($attractionsAssociation->getCache());
         self::assertEquals(Mapping\CacheUsage::READ_ONLY, $attractionsAssociation->getCache()->getUsage());

@@ -1292,7 +1292,7 @@ class ClassMetadataTest extends OrmTestCase
 
         $cm->addProperty($association);
 
-        $cm->setAssociationOverride(new Mapping\ManyToOneAssociationMetadata('invalidPropertyName'));
+        $cm->setPropertyOverride(new Mapping\ManyToOneAssociationMetadata('invalidPropertyName'));
     }
 
     /**
@@ -1313,7 +1313,7 @@ class ClassMetadataTest extends OrmTestCase
         $fieldMetadata = new Mapping\FieldMetadata('invalidPropertyName');
         $fieldMetadata->setType(Type::getType('string'));
 
-        $metadata->setAttributeOverride($fieldMetadata);
+        $metadata->setPropertyOverride($fieldMetadata);
     }
 
     /**

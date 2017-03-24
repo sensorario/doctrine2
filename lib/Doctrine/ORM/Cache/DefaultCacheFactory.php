@@ -126,7 +126,7 @@ class DefaultCacheFactory implements CacheFactory
         ClassMetadata $metadata
     )
     {
-        $cache  = $metadata->cache;
+        $cache  = $metadata->getCache();
         $region = $this->getRegion($cache);
         $usage  = $cache->getUsage();
 

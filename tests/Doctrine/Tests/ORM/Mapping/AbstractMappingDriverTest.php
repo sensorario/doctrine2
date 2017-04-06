@@ -10,9 +10,9 @@ use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
-use Doctrine\ORM\Mapping\DefaultNamingStrategy;
+use Doctrine\ORM\Mapping\Factory\DefaultNamingStrategy;
+use Doctrine\ORM\Mapping\Factory\UnderscoreNamingStrategy;
 use Doctrine\ORM\Mapping\MappingException;
-use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\Tests\Models\Cache\City;
 use Doctrine\Tests\Models\CMS\CmsAddress;
 use Doctrine\Tests\Models\CMS\CmsAddressListener;
@@ -1268,7 +1268,7 @@ class User
         $tableMetadata->addOption('foo', 'bar');
         $tableMetadata->addOption('baz', ['key' => 'val']);
 
-        $metadata->setPrimaryTable($tableMetadata);
+        $metadata->setTable($tableMetadata);
         $metadata->setInheritanceType(Mapping\InheritanceType::NONE);
         $metadata->setChangeTrackingPolicy(Mapping\ChangeTrackingPolicy::DEFERRED_IMPLICIT);
 
@@ -1565,7 +1565,7 @@ class Comment
             ]
         );
 
-        $metadata->setPrimaryTable($tableMetadata);
+        $metadata->setTable($tableMetadata);
         $metadata->setInheritanceType(Mapping\InheritanceType::NONE);
 
         $fieldMetadata = new Mapping\FieldMetadata('content');

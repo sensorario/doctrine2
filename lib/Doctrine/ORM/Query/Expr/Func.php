@@ -53,7 +53,7 @@ class Func
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getName()
     {

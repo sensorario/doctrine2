@@ -4,7 +4,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           http://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-                              
+
     <entity name="Doctrine\Tests\Models\CMS\CmsUser" table="cms_users">
 
         <named-queries>
@@ -86,7 +86,7 @@
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO"/>
         </id>
-        
+
         <field name="status" column="status" type="string" length="50" unique="true"/>
         <field name="username" column="username" type="string" length="255" unique="true"/>
         <field name="name" column="name" type="string" length="255"/>
@@ -117,7 +117,7 @@
                 <cascade-detach/>
             </cascade>
         </one-to-many>
-        
+
         <many-to-many field="groups" target-entity="CmsGroup">
             <cascade>
                 <cascade-persist/>

@@ -677,7 +677,7 @@ class PaginationTest extends OrmFunctionalTestCase
     public function testPaginationWithSubSelectOrderByExpression($useOutputWalker, $fetchJoinCollection)
     {
         $query = $this->_em->createQuery(
-            "SELECT u, 
+            "SELECT u,
                 (
                     SELECT MAX(a.version)
                     FROM Doctrine\\Tests\\Models\\CMS\\CmsArticle a

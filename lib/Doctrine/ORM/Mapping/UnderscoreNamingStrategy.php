@@ -24,7 +24,7 @@ namespace Doctrine\ORM\Mapping;
  * Naming strategy implementing the underscore naming convention.
  * Converts 'MyEntity' to 'my_entity' or 'MY_ENTITY'.
  *
- * 
+ *
  * @link    www.doctrine-project.org
  * @since   2.3
  * @author  Fabio B. Silva <fabio.bat.silva@gmail.com>
@@ -57,7 +57,7 @@ class UnderscoreNamingStrategy implements NamingStrategy
     /**
      * Sets string case CASE_LOWER | CASE_UPPER.
      * Alphabetic characters converted to lowercase or uppercase.
-     * 
+     *
      * @param integer $case
      *
      * @return void
@@ -118,7 +118,7 @@ class UnderscoreNamingStrategy implements NamingStrategy
     {
         return $this->classToTableName($sourceEntity) . '_' . $this->classToTableName($targetEntity);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -127,7 +127,7 @@ class UnderscoreNamingStrategy implements NamingStrategy
         return $this->classToTableName($entityName) . '_' .
                 ($referencedColumnName ?: $this->referenceColumnName());
     }
-    
+
     /**
      * @param string $string
      *

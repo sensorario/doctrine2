@@ -12,7 +12,7 @@ class DDC6412File
      * @GeneratedValue
      */
     public $id;
-    
+
     /**
      * @Column(length=50, name="file_name")
      */

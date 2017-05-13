@@ -54,7 +54,7 @@ class Comparison
 
     /**
      * Creates a comparison expression with the given arguments.
-     * 
+     *
      * @param mixed  $leftExpr
      * @param string $operator
      * @param mixed  $rightExpr

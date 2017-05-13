@@ -29,7 +29,7 @@ class Driver
      * @OneToMany(targetEntity="PaidRide", mappedBy="driver")
      */
     private $driverRides;
-    
+
     public function getId()
     {
         return $this->id;

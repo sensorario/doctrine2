@@ -85,7 +85,7 @@ class Join
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getJoinType()
     {

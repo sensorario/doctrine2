@@ -5,6 +5,6 @@ Doctrine\Tests\ORM\Mapping\SingleTableEntityNoDiscriminatorColumnMapping:
     ONE: SingleTableEntityNoDiscriminatorColumnMappingSub1
     TWO: SingleTableEntityNoDiscriminatorColumnMappingSub2
   id:
-    id: 
+    id:
       generator:
         strategy: NONE

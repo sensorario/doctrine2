@@ -7,6 +7,6 @@ Doctrine\Tests\ORM\Mapping\SingleTableEntityIncompleteDiscriminatorColumnMapping
   discriminatorColumn:
     name: dtype
   id:
-    id: 
+    id:
       generator:
         strategy: NONE
